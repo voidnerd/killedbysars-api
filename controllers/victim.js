@@ -19,6 +19,8 @@ exports.getAll = async (ctx) => {
 exports.getOne = async (ctx) => {
   try {
     const victim = await Victim.findOne({ _id: ctx.params.id });
+    victim.image_url = Storage.url(victim.image);
+    console.log(victim.imageUrl);
     ctx.body = {
       data: victim,
     };
@@ -41,8 +43,6 @@ exports.store = async (ctx) => {
   });
 
   const { error } = victimScema.validate(ctx.request.body);
-
-  //   console.log(result.error.message);
 
   if (error) {
     ctx.response.status = 422;

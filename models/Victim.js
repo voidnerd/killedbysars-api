@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Storage = require("../services/storage");
 
 let victimSchema = Schema({
   name: String,
@@ -16,5 +17,11 @@ let victimSchema = Schema({
   year_killed: Number,
   story: String,
 });
+
+victimSchema.virtual("imageUrl").get(function () {
+  return Storage.url(this.image);
+});
+
+victimSchema.set("toJSON", { virtuals: true });
 
 module.exports = mongoose.model("Victim", victimSchema);

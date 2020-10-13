@@ -16,8 +16,14 @@ Storage.upload = (image) => {
   });
 };
 
+/*
+ * get image secure url
+ */
 Storage.url = (public_id) => {
-  return cloudinary.url(public_id);
+  return cloudinary.url(public_id, {
+    secure: true,
+    transformation: { fetch_format: "auto", dpr: "auto", quality: "auto" },
+  });
 };
 
 module.exports = Storage;
