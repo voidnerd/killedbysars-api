@@ -9,7 +9,7 @@ exports.getAll = async (ctx) => {
   if (gender) {
     query = { gender };
   }
-  const victims = await Victim.find(query);
+  const victims = await Victim.find(query).sort({ createdAt: -1 });
 
   ctx.body = {
     data: victims,
@@ -37,7 +37,7 @@ exports.store = async (ctx) => {
     name: Joi.string().required(),
     gender: Joi.string().required(),
     state: Joi.string().required(),
-    year_born: Joi.number().integer().required(),
+    year_born: Joi.string().min(4).required(),
     year_killed: Joi.number().integer().required(),
     story: Joi.string().required(),
   });
@@ -75,6 +75,7 @@ exports.store = async (ctx) => {
     }
 
     await victim.save();
+    ctx.response.status = 201;
     ctx.body = {
       data: victim,
     };
