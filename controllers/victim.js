@@ -56,6 +56,13 @@ exports.store = async (ctx) => {
 
   try {
     const file = ctx.request.files.image;
+
+    if (!file) {
+      ctx.response.status = 422;
+      ctx.body = {
+        message: "File is required",
+      };
+    }
     const victim = new Victim();
     victim.name = ctx.request.body.name;
     victim.gender = ctx.request.body.gender;

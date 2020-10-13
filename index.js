@@ -3,6 +3,7 @@ const app = new Koa();
 const mongoose = require("mongoose");
 require("dotenv").config();
 const bodyParser = require("koa-bodyparser");
+const cors = require("@koa/cors");
 
 const router = require("./routes");
 
@@ -44,9 +45,9 @@ app.use(async (ctx, next) => {
 // app.use(async ctx => {
 //   ctx.body = 'Hello World';
 // });
-
+app.use(cors());
 app.use(router.routes()).use(router.allowedMethods());
 
 app.listen(port, () => {
-  console.log("Server started on localhost:3000");
+  console.log(`Server started on http://localhost:${port}`);
 });
